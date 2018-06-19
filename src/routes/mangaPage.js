@@ -1,10 +1,10 @@
-import React, {Component}   from 'react';
+import React, {Component, Fragment}   from 'react';
 import { Redirect }   from 'react-router-dom';
 import store                from '../store';
 import PropTypes            from 'prop-types';
 import { connect }          from 'react-redux';
 import { fetchDetails }     from '../actions/postActions';
-
+import {isEmpty} from 'lodash'
 
 class MangaPage extends Component {
   // constructor(props){
@@ -12,14 +12,8 @@ class MangaPage extends Component {
   //   let mangaArr;
   // }
 
-  componentWillMount () {
-    if(!store.getState().posts.listManga.manga){
-      return <Redirect to = '/' />
-    }
-  }
-
   componentDidMount() {
-    this.props.fetchDetails(this.getManga(store.getState().posts.listManga.manga, this.props));
+    this.props.fetchDetails(this.getManga(this.props.listManga.manga, this.props));
     // this.mangaArr     = store.getState().posts.listManga.manga;
     // console.log('Checking ')
   }
@@ -35,27 +29,43 @@ class MangaPage extends Component {
   }
 
   displayGenres (arr) {
-    console.log(arr.categories);
-    console.log(typeof arr.categories);
-    console.log(arr.author_kw);
-    console.log(arr.chapters[0])
+    // console.log(arr.categories);
+    // console.log(typeof arr.categories);
+    // console.log(arr.author_kw);
+    // console.log(arr.image);
+    // console.log(arr.chapters[0])
     // arr.categories.map( el => {
     //   console.log(el);
     // })
+
+    console.log('IN CASCUTZA', arr)
+
+    return arr.categories.map((item, key) => <h5 key={key}>
+      {item}
+    </h5>)
   }
 
   render() {
     const mangaD = this.props.mangaDetails;
-    return (
-      <div className = "manga-page">
-        <h1>{mangaD.title}</h1>
-        <div className = "other-details">
-          <div>Genres: {this.displayGenres(mangaD)}</div>
-          <img src = {mangaD.imageURL} alt = "manga"/>
-        </div>
-        <p>{mangaD.description}</p>
-      </div>
-    )
+    console.log('CASCUTZA', mangaD);
+    if(!mangaD) {
+      return <div>Loading details...</div>
+    } else {
+      return (
+        <Fragment>
+        {!isEmpty(mangaD) && <div className = "manga-page">
+          <h1>{mangaD.title}</h1>
+          <div className = "other-details">
+            <div>Genres: {this.displayGenres(mangaD)}</div>
+            <img src = {'https://cdn.mangaeden.com/mangasimg/' + mangaD.image} alt = "manga"/>
+          </div>
+          <p>{mangaD.description}</p>
+        </div>}
+
+        </Fragment>
+      )
+    }
+
   }
 }
 
@@ -65,7 +75,8 @@ MangaPage.propTypes = {
 }
 
 const mapStateToProps = state => ({
-  mangaDetails  : state.posts.mangaDetails
+  mangaDetails  : state.posts.mangaDetails,
+  listManga  : state.posts.listManga
 })
 
 export default connect( mapStateToProps, { fetchDetails } )(MangaPage);
