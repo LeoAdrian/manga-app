@@ -1,17 +1,35 @@
 html,
 body {
-	width: 100%;
-	height: 100%;
-	margin: 0;
+	width  : 100%;
+	height : 100%;
+	margin : 0;
 }
 
 .manga-list {
-	display: flex;
-	flex-wrap: wrap;
-	justify-content: center;
+	display         : flex;
+	flex-wrap       : wrap;
+	justify-content : left;
+	width           : 95%;
+	margin          : 0 auto;
 }
 
 .manga-list div img {
-	height: 300px;
-	width: 150px;
+	height : 150px;
+	width  : 100px;
+	cursor : pointer;
+}
+
+.manga-list div {
+	/* flex-basis:%; */
+	margin : 10px;
+}
+
+.manga-page {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+}
+
+.manga-page p {
+	width:50%;
 }

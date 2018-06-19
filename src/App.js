@@ -1,38 +1,27 @@
-import React, { Component } from "react";
-import logo from "./logo.svg";
-import Main from "./routes/main";
+import React, { Component } 						from "react";
+import { Provider }                     from 'react-redux';
+import store                    				from './store';
+import Main 														from "./routes/main";
+import MangaPage 												from "./routes/mangaPage";
 import "./App.css";
+import {
+	BrowserRouter as Router,
+	Route,
+	Switch
+} from 'react-router-dom';
 
 class App extends Component {
-	constructor(props) {
-		super(props);
-
-		this.state = {
-			mangaA: null
-		};
-	}
-
-	componentWillMount() {
-		fetch("https://www.mangaeden.com/api/list/0/?p=0&l=25")
-			.then(result => result.json())
-			.then(data => this.setMangaObj(data));
-	}
-
-	setMangaObj = passedData => {
-		this.setState({ mangaA: passedData });
-	};
-
-	// Check state of the manga returned
-	checkManga = () => {
-		console.log(this.state.mangaA);
-	};
-
 	render() {
 		return (
-			<div className="App">
-				<Main mangaArray={this.state.mangaA} />
-			</div>
-		);
+			<Router>
+				<Provider store = {store}>
+					<Switch>
+						<Route exact path = '/' component = {Main} />
+						<Route path='/manga/:i' component={MangaPage}/>
+					</Switch>
+				</Provider>
+			</Router>
+		)
 	}
 }
 
