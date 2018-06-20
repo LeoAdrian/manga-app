@@ -31,7 +31,6 @@ const MangaList = props => {
 		const list = arrayFromObj.map(mangaObj => (
 			<div key={mangaObj.i}>
 				<Link to={`/manga/${mangaObj.i}`}><img src={replaceBrokenImg(mangaObj.im)} alt = "Manga" /></Link>
-				{/* <h5>{formatTitle(mangaObj.a)}</h5> */}
 			</div>
 		));
 		// console.log(props.mangaArray === null);

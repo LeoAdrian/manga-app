@@ -1,8 +1,9 @@
-import { FETCH_MANGA, FETCH_DETAILS } from '../actions/types';
+import { FETCH_MANGA, FETCH_DETAILS, FETCH_CHAPTER } from '../actions/types';
 
 const initialState = {
   listManga     : {},
-  mangaDetails  : {}
+  mangaDetails  : {},
+  chapter       : {}
 }
 
 export default function(state = initialState, action) {
@@ -15,8 +16,13 @@ export default function(state = initialState, action) {
       case FETCH_DETAILS :
         return {
           ...state,
-          mangaDetails  :  action.payload
+          mangaDetails : action.payload
         }
+        case FETCH_CHAPTER :
+          return {
+            ...state,
+            chapter : action.payload
+          }
     default :
       return state;
   }

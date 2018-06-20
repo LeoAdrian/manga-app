@@ -9,7 +9,7 @@ body {
 	display         : flex;
 	flex-wrap       : wrap;
 	justify-content : left;
-	width           : 95%;
+	width           : 100%;
 	margin          : 0 auto;
 }
 
@@ -32,4 +32,57 @@ body {
 
 .manga-page p {
 	width:50%;
+}
+
+.other-details {
+	display:flex;
+	width:50%;
+	flex-direction:column;
+	align-items: center;
+	justify-content: space-between;
+}
+
+.genres {
+	display:flex;
+	width:50%;
+	justify-content: space-around;
+	margin-bottom: 10px;
+	font-size:12px;
+}
+
+.chapters {
+	width:50%;
+}
+
+.chapter {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	background-color: black;
+}
+
+.chapter img {
+	margin-bottom: 20px;
+	max-width:1900px;
+}
+
+.column-info {
+	display:flex;
+	width:50%;
+	justify-content: space-between;
+	border-bottom-width: thin;
+	border-bottom-color: black;
+	border-bottom-style: solid;
+}
+
+.chapter-info {
+	display:flex;
+	justify-content: space-between;
+	border-bottom-width: thin;
+	border-bottom-color: black;
+	border-bottom-style: solid;
+}
+
+.chapter-info a {
+	text-decoration: none;
 }

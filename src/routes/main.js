@@ -12,6 +12,7 @@ class Main extends Component {
     return (
       <div>
         <h1>Manga Homepage</h1>
+        <button onClick = {() => this.props.fetchManga(Math.floor(Math.random() * 900) + 1)}>Get random manga</button>
         <MangaList mangaArray = {this.props.listManga.manga}/>
       </div>
     )
