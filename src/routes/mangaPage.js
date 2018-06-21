@@ -30,6 +30,7 @@ class MangaPage extends Component {
       ['#x27', `'`],
       ['#x2F', `/`],
       ['#39', `'`],
+      ['#039', `'`],
       ['#47', `/`],
       ['lt', `<`],
       ['gt', `>`],
@@ -85,10 +86,12 @@ class MangaPage extends Component {
           {!isEmpty(mangaD) && <div className = "manga-page">
             <h1>{mangaD.title}</h1>
             <div className = "other-details">
-              <div className = "genres" ><b>Genres:</b>{this.displayGenres(mangaD)}</div>
-              <div ><b>Status: </b>{this.displayStatus(mangaD)}</div>
-              <div ><b>Chapters: </b>{mangaD.chapters_len}</div>
               <img src = {'https://cdn.mangaeden.com/mangasimg/' + mangaD.image} alt = "manga"/>
+              <div className = "text-details">
+                <div className = "genres" ><b>Genres:</b>{this.displayGenres(mangaD)}</div>
+                <div ><b>Status: </b>{this.displayStatus(mangaD)}</div>
+                <div ><b>Chapters: </b>{mangaD.chapters_len}</div>
+              </div>
             </div>
             <p>{this.decodeHTML(mangaD.description)}</p>
             <div className = "column-info">

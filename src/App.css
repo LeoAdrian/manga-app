@@ -37,17 +37,17 @@ body {
 .other-details {
 	display:flex;
 	width:50%;
-	flex-direction:column;
+	flex-direction:row;
 	align-items: center;
-	justify-content: space-between;
+	justify-content: center;
 }
 
 .genres {
 	display:flex;
-	width:50%;
-	justify-content: space-around;
-	margin-bottom: 10px;
-	font-size:12px;
+	width:100%;
+	justify-content: space-between;
+	flex-wrap: wrap;
+	/* font-size:12px; */
 }
 
 .chapters {
@@ -85,4 +85,14 @@ body {
 
 .chapter-info a {
 	text-decoration: none;
+}
+
+.text-details {
+	display:flex;
+	flex-direction: column;
+	flex-basis:50%;
+	align-items: flex-start;
+	height:100px;
+	justify-content: space-between;
+	margin-left:20px;
 }
