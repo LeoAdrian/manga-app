@@ -1,0 +1,4 @@
+CREATE TABLE genres_desc(
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(255)
+)
