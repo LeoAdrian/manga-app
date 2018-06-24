@@ -2,8 +2,9 @@ import React    from 'react';
 import { Link } from 'react-router-dom';
 
 const MangaList = props => {
-	if (!props.mangaArray) {
-		console.log('Nothing found!');
+	console.log(props);
+	// let mangaAr = [...props.mangaArray];
+	if (!props.mangaArray && !props.searched) {
 		return <div>Loading manga...</div>;
 	} else {
 
@@ -26,11 +27,11 @@ const MangaList = props => {
 		};
 
 
-		const arrayFromObj = props.mangaArray;
+		const arrayFromObj = props.mangaArray || props.searched;
 		// const imgAdd = "https://cdn.mangaeden.com/mangasimg/";
 		const list = arrayFromObj.map(mangaObj => (
-			<div key={mangaObj.i}>
-				<Link to={`/manga/${mangaObj.i}`}><img src={replaceBrokenImg(mangaObj.im)} alt = "Manga" /></Link>
+			<div key={mangaObj.i || mangaObj.manga_id}>
+				<Link to={`/manga/${mangaObj.i || mangaObj.manga_id}`}><img src={replaceBrokenImg(mangaObj.im || mangaObj.image_url)} alt = "Manga" /></Link>
 			</div>
 		));
 		// console.log(props.mangaArray === null);

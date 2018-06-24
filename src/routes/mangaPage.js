@@ -7,17 +7,36 @@ import { isEmpty, find }              from 'lodash';
 
 class MangaPage extends Component {
   componentDidMount() {
-    this.props.fetchDetails(this.findManga(this.props.listManga.manga, this.props));
+    this.checkForManga();
+    // this.props.fetchDetails(this.findManga(this.props.listManga.manga, this.props));
+    console.log(this.props);
   }
 
-  findManga(mArr, p) {
+  findManga(mArr, p, type='all') {
     const copy = [...mArr];
-    const m = find(copy, el => el.i === p.match.params.i);
+    // console.log(copy);
+    let i;
+    type === 'all' ?  i = 'i' : i = 'manga_id';
+    const m = find(copy, el => el[i] === p.match.params.i);
     return m;
   }
 
+  checkForManga() {
+    // !this.findManga(this.props.listManga.manga, this.props) ?
+    //   this.props.fetchDetails(this.findManga(this.props.popular, this.props, 'popular')):
+    //   this.props.fetchDetails(this.findManga(this.props.listManga.manga, this.props))
+      if(!this.findManga(this.props.listManga.manga, this.props) && !this.findManga(this.props.popular, this.props, 'popular')){
+        console.log('First case');
+       this.props.fetchDetails(this.findManga(this.props.searched, this.props))
+     }
+      else if (!this.findManga(this.props.listManga.manga, this.props)) {
+        console.log('First case');
+        this.props.fetchDetails(this.findManga(this.props.popular, this.props, 'popular'))
+      }
+  }
+
   displayGenres (arr) {
-    console.log(typeof arr.chapters[0][1]);
+    // console.log(typeof arr.chapters[0][1]);
     return arr.categories.map((item, key) => <span key={key}>
       {item}
     </span>)
@@ -62,8 +81,11 @@ class MangaPage extends Component {
 
   getDate(timestamp) {
     // Create a new JavaScript Date object based on the timestamp
-    // multiplied by 1000 so that the argument is in milliseconds, not seconds.
-    const date   = new Date(timestamp*1000);
+    // multiplied by 1000 so that the argument is in milliseconds, not seconds
+    if(typeof timestamp === 'number'){
+      timestamp *= 1000;
+    }
+    const date   = new Date(timestamp);
     const day    =  '0' + date.getDate();
     const month  =  '0' + (date.getMonth() + 1);
     const year   =   date.getFullYear();
@@ -81,6 +103,7 @@ class MangaPage extends Component {
     if(!mangaD) {
       return <div>Loading details...</div>
     } else {
+      console.log(this.props);
       return (
         <Fragment>
           {!isEmpty(mangaD) && <div className = "manga-page">
@@ -108,12 +131,15 @@ class MangaPage extends Component {
 
 MangaPage.propTypes = {
   fetchDetails  : PropTypes.func.isRequired,
-  mangaDetails  : PropTypes.object
+  mangaDetails  : PropTypes.object,
+  popular       : PropTypes.array
 }
 
 const mapStateToProps = state => ({
   mangaDetails  : state.posts.mangaDetails,
-  listManga     : state.posts.listManga
+  listManga     : state.posts.listManga,
+  popular       : state.posts.popular,
+  searched      : state.posts.searched
 })
 
 export default connect( mapStateToProps, { fetchDetails } )(MangaPage);

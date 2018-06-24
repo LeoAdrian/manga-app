@@ -16,12 +16,13 @@ const connection = mysql.createConnection({
   database : 'manga'
 });
 
-function createPromise(manga) {
+function createPromise(manga, f, index) {
   return new Promise ((resolve, reject) => {
     fetch(`https://www.mangaeden.com/api/manga/${manga.i}`)
      .then(response => response.json())
-     .then(data => resolve(data))
-     .then(err => console.log(err));
+     // .then(data => resolve(data))
+     .then(data => resolve(f(data, unixToDate, _.unescape, index, 'single')))
+     .catch(err => console.log(err));
   })
 }
 
@@ -37,24 +38,22 @@ allMangaPromise(fetch)
 .then(mangaO => {
   const all = [];
   let length = limit || mangaO.length;
-  for(let i = start; i < length; i++){
-    all.push(createPromise(mangaO[i]));
-  }
-  return Promise.all(all)
-  // .then(resolvedArr => {
-  //   return formatDetail(resolvedArr, unixToDate, _.unescape, start+1)
-  // })
-  // .then(mangaDetails => {
-  //   console.log(mangaDetails);
-  //   // connection.connect();
-  //   // connection.query(INSERTINTOMDETAILS, [mangaDetails], (err, result) => {
-  //   //   if(err) throw err;
-  //   //   console.log(result);
-  //   // })
-  //   // connection.end()
-  // })
+  // for(let i = start; i < length; i++){
+  //   all.push(createPromise(mangaO[i]));
+  // }
+  const reducedArr = mangaO.reduce((container, manga, index) => {
+    if(index > 19640){
+      // return container;
+      container.push(createPromise(manga,formatDetail, index+1));
+    } else {
+      return container;
+    }
+    return container;
+  }, [])
+  return Promise.all(reducedArr)
 })
-.then(mangaDetails => formatDetail(mangaDetails, unixToDate, _.unescape, start + 1))
+.then(result => console.log(result))
+// .then(mangaDetails => formatDetail(mangaDetails, unixToDate, _.unescape, start + 1))
 // .then(formattedArr => {
 //   connection.connect();
 //     connection.query(INSERTINTOMDETAILS, [formattedArr], (err, result) => {

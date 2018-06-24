@@ -31,16 +31,21 @@ const formatAllFunc = (mangaList, dateF, formatStr) => {
    return allManga;
 }
 
-const formatDetail = (mangaList, dateF, formatStr, idx) => {
-  const allManga = [];
+const formatDetail = (mangaList, dateF, formatStr, idx, type='bulk') => {
+  if(type === 'single') {
+    return [idx++, formatStr(mangaList.title), formatStr(mangaList.alias),mangaList.author, mangaList.artist, mangaList.chapters_len, dateF(mangaList.created), formatStr(mangaList.description), dateF(mangaList.last_chapter_date),mangaList.image, mangaList.imageURL, mangaList.language, mangaList.released, mangaList.startsWith,
+      mangaList.status, mangaList.type];
+  } else {
+    const allManga = [];
 
-   mangaList.forEach((obj, i) => {
-       // idx+=1
-     let formatDate = dateF(obj.ld);
-     allManga.push([idx++, formatStr(obj.title), formatStr(obj.alias),obj.author, obj.artist, obj.chapters_len, dateF(obj.created), formatStr(obj.description), dateF(obj.last_chapter_date),obj.image, obj.imageURL, obj.language, obj.released, obj.startsWith,
-       obj.status, obj.type]);
-   })
-   return allManga;
+     mangaList.forEach((obj, i) => {
+         // idx+=1
+       let formatDate = dateF(obj.ld);
+       allManga.push([idx++, formatStr(obj.title), formatStr(obj.alias),obj.author, obj.artist, obj.chapters_len, dateF(obj.created), formatStr(obj.description), dateF(obj.last_chapter_date),obj.image, obj.imageURL, obj.language, obj.released, obj.startsWith,
+         obj.status, obj.type]);
+     })
+     return allManga;
+  }
 }
 
 const getAllGenres = (mangaList, lo) => {

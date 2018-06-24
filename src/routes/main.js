@@ -1,18 +1,23 @@
 import React, { Component } from "react";
 import MangaList from "../components/mangaList";
-import PropTypes            from 'prop-types';
-import { connect }          from 'react-redux';
-import { fetchManga }       from '../actions/postActions';
+import Searchbar from "../components/searchbar";
+import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
+import { fetchManga, fetchPopular }       from '../actions/postActions';
 
 class Main extends Component {
   componentWillMount() {
     this.props.fetchManga();
+    this.props.fetchPopular(12);
   }
+
   render() {
     return (
-      <div>
-        <h1>Manga Homepage</h1>
-        <button onClick = {() => this.props.fetchManga(Math.floor(Math.random() * 900) + 1)}>Get random manga</button>
+      <div className = "whole-app">
+        <Searchbar />
+        <h1>Popular manga</h1>
+        <MangaList mangaArray = {this.props.popular}/>
+        <h1>Other titles</h1>
         <MangaList mangaArray = {this.props.listManga.manga}/>
       </div>
     )
@@ -20,15 +25,19 @@ class Main extends Component {
 }
 
 Main.propTypes = {
-  fetchManga  : PropTypes.func.isRequired,
-  listManga   : PropTypes.object
+  fetchManga    : PropTypes.func.isRequired,
+  fetchPopular  : PropTypes.func.isRequired,
+  listManga     : PropTypes.object,
+  popular       : PropTypes.array
 }
 
 const mapStateToProps = state => ({
-  listManga : state.posts.listManga
+  listManga : state.posts.listManga,
+  popular   : state.posts.popular,
+  searched : state.posts.searched
 })
 
-export default connect( mapStateToProps, { fetchManga } )(Main);
+export default connect( mapStateToProps, { fetchManga, fetchPopular } )(Main);
 
 
 
