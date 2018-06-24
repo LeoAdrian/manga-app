@@ -1,8 +1,16 @@
 const app = require('express')();
 const mysql = require('mysql');
-const cors = require('cors'); app.use(cors());
+const cors = require('cors');
 const bodyParser = require('body-parser');
+app.all('*', function(req, res, next) {
+  var origin = req.get('origin');
+  res.header('Access-Control-Allow-Origin', "*");
+  res.header("Access-Control-Allow-Headers", "X-Requested-With");
+  res.header('Access-Control-Allow-Headers', 'Content-Type');
+  next();
+});
 
+app.use(cors());
 const connection = mysql.createConnection({
   host     : 'webit-ps.com',
   user     : 'webitpsc_manga',
@@ -16,14 +24,7 @@ app.use(
 	})
 );
 app.use(bodyParser.json());
-app.all('*', function(req, res, next) {
-  var origin = req.get('origin');
-  res.header('Access-Control-Allow-Origin', origin);
-  res.header("Access-Control-Allow-Headers", "X-Requested-With");
-  res.header('Access-Control-Allow-Headers', 'Content-Type');
-  next();
-});
-connection.connect();
+// connection.connect();
 
 app.get('/search', (req, res) => {
   console.log(req.query);
@@ -54,7 +55,5 @@ app.get('/popular', (req, res) => {
 })
 
 
-// connection.end();
-app.listen(process.env.PORT || 8000, () => {
-  console.log('Listening on port ' + process.env.PORT || 8000)
-})
+var port = process.env.PORT || 8000;
+app.listen(port);
