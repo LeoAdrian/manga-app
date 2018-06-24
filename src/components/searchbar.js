@@ -2,7 +2,7 @@ import React, {Component, Fragment} from 'react';
 import { Redirect } from 'react-router-dom';
 import PropTypes            from 'prop-types';
 import { connect }          from 'react-redux';
-import { withRouter } from "react-router-dom";
+import { withRouter }       from "react-router-dom";
 import { searchManga }       from '../actions/postActions';
 
 class Searchbar extends Component {

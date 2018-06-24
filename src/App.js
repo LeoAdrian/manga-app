@@ -28,9 +28,7 @@ class App extends Component {
 
 							isEmpty(store.getState().posts.searched) ? ( <Redirect to = '/' /> ) : (<MangaList {...props} searched = {store.getState().posts.searched}/> )
 						)} />
-						<Route exact path = '/manga/:i' render = {(props) => (
-							!store.getState().posts.listManga.manga ? ( <Redirect to = '/' /> ) : ( <MangaPage {...props}/> )
-						)}/>
+						<Route exact path = '/manga/:i' render = {(props) => <MangaPage {...props}/> }/>
 						<Route path = '/manga/:i/:chID' component = {ChapterPage}/>
 					</Switch>
 				</Provider>

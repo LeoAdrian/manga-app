@@ -4,10 +4,10 @@ const cors = require('cors');
 const bodyParser = require('body-parser');
 
 const connection = mysql.createConnection({
-  host     : 'localhost',
-  user     : 'root',
+  host     : 'webit-ps.com',
+  user     : 'webitpsc_manga',
   password : '12345678',
-  database : 'manga'
+  database : 'webitpsc_manga'
 });
 
 app.use(

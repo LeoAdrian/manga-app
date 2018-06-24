@@ -5,7 +5,8 @@ const initialState = {
   mangaDetails  : {},
   chapter       : {},
   popular       : [],
-  searched        : []
+  searched        : [],
+  isOk: true
 }
 
 export default function(state = initialState, action) {
@@ -18,7 +19,8 @@ export default function(state = initialState, action) {
     case FETCH_DETAILS :
       return {
         ...state,
-        mangaDetails : action.payload
+        mangaDetails : action.payload.details,
+        isOk: action.payload.isOk
       }
     case FETCH_CHAPTER :
       return {

@@ -1,6 +1,6 @@
 import { FETCH_MANGA, FETCH_DETAILS, FETCH_CHAPTER, FETCH_POPULAR, SEARCH_TERM } from './types';
-
-export const fetchManga = (nr = 1) => dispatch => {
+import {isEmpty, isNull} from 'lodash'
+export const fetchManga = (nr = 5) => dispatch => {
   return fetch(`https://www.mangaeden.com/api/list/0/?p=${nr}&l=25`)
          .then(response => response.json())
          .then(manga => dispatch({
@@ -9,14 +9,21 @@ export const fetchManga = (nr = 1) => dispatch => {
          }))
 }
 
-export const fetchDetails = ( obj ) => dispatch => {
+export const fetchDetails = (id) => dispatch => {
   console.log('Into fetch');
-  console.log(obj);
-  return fetch(`https://www.mangaeden.com/api/manga/${obj.i || obj.manga_id}/`)
-          .then(response => response.json())
-          .then(details => dispatch({
+  return fetch(`https://www.mangaeden.com/api/manga/${id}/`)
+          .then(r => r.ok ? r.json() : null)
+          .then(d => {
+
+
+            return  { details: d, isOk: !isNull(d) }
+          })
+          .then(({isOk, details}) => dispatch({
             type    : FETCH_DETAILS,
-            payload : details
+            payload : {
+              details,
+              isOk
+            }
         }))
 }
 

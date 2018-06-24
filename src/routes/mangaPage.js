@@ -1,16 +1,18 @@
 import React, {Component, Fragment}   from 'react';
 import PropTypes                      from 'prop-types';
 import { connect }                    from 'react-redux';
-import { Link }                       from 'react-router-dom';
+import { Link, Redirect }                       from 'react-router-dom';
 import { fetchDetails }               from '../actions/postActions';
 import { isEmpty, find }              from 'lodash';
 
 class MangaPage extends Component {
   componentDidMount() {
-    this.checkForManga();
+    // this.checkForManga();
     // console.log('Props in MangaPage');
     // console.log(this.props);
-    // this.props.fetchDetails(this.findManga(this.props.listManga.manga, this.props));
+    console.log(this.props)
+    const id = this.props.match.params.i
+    this.props.fetchDetails(id);
   }
 
   findManga(mArr, p, type='all') {
@@ -24,7 +26,7 @@ class MangaPage extends Component {
 
   checkForManga() {
     let lm = this.findManga(this.props.listManga.manga, this.props);
-    let p =   this.findManga(this.props.popular, this.props);
+    let p =  this.findManga(this.props.popular, this.props);
     let s =  this.findManga(this.props.searched, this.props);
     // // console.log(lm, p, s);
     if(!p && !s) {
@@ -108,12 +110,10 @@ class MangaPage extends Component {
 
   render() {
     const mangaD = this.props.mangaDetails;
-    if(!mangaD) {
-      return <div>Loading details...</div>
-    } else {
-      console.log(this.props);
+    const {isOk} = this.props;
+
       return (
-        <Fragment>
+        isOk ? <Fragment>
           {!isEmpty(mangaD) && <div className = "manga-page">
             <h1>{mangaD.title}</h1>
             <div className = "other-details">
@@ -131,10 +131,11 @@ class MangaPage extends Component {
             </div>
             <div className = "chapters">{this.displayChapters(mangaD.chapters, this.props.match.params.i)}</div>
           </div>}
-        </Fragment>
+        </Fragment> :
+        <Redirect to='/' />
       )
     }
-  }
+  
 }
 
 MangaPage.propTypes = {
@@ -147,7 +148,8 @@ const mapStateToProps = state => ({
   mangaDetails  : state.posts.mangaDetails,
   listManga     : state.posts.listManga,
   popular       : state.posts.popular,
-  searched      : state.posts.searched
+  searched      : state.posts.searched,
+  isOk: state.posts.isOk
 })
 
 export default connect( mapStateToProps, { fetchDetails } )(MangaPage);
