@@ -48,7 +48,7 @@ export const fetchChapter = ( mID, chID ) => dispatch => {
 }
 
 export const fetchPopular = () => dispatch => {
-  return fetch(`https://manga-server.herokuapp.com/popular`)
+  return fetch(`https://manga-server.herokuapp.com/popular`, { mode: 'no-cors'})
         .then(response => response.json())
         .then(popular => dispatch({
           type    : FETCH_POPULAR,
@@ -57,7 +57,7 @@ export const fetchPopular = () => dispatch => {
 }
 
 export const searchManga = (searchTerm ,callback) => dispatch => {
-  return fetch(`https://manga-server.herokuapp.com/search?term=${searchTerm}`)
+  return fetch(`https://manga-server.herokuapp.com/search?term=${searchTerm}`, { mode: 'no-cors'})
         .then(response => response.json())
         .then(results => dispatch({
           type    : SEARCH_TERM,
@@ -66,12 +66,3 @@ export const searchManga = (searchTerm ,callback) => dispatch => {
         }))
         .then( () => callback())
 }
-// export const fetchManga = () => dispatch => {
-//   console.log('Fetching manga');
-//   fetch("https://www.mangaeden.com/api/list/0/?p=1&l=25")
-//     .then(result => result.json())
-//     .then(manga => dispatch({
-//       type    : FETCH_MANGA,
-//       payload : manga
-//     }));
-// }
