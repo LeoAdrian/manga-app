@@ -48,7 +48,7 @@ export const fetchChapter = ( mID, chID ) => dispatch => {
 }
 
 export const fetchPopular = () => dispatch => {
-  return fetch(`https://manga-server.herokuapp.com/popular`, { mode: 'no-cors'})
+  return fetch(`https://manga-server.herokuapp.com/popular`)
         .then(response => response.json())
         .then(popular => dispatch({
           type    : FETCH_POPULAR,
@@ -57,7 +57,7 @@ export const fetchPopular = () => dispatch => {
 }
 
 export const searchManga = (searchTerm ,callback) => dispatch => {
-  return fetch(`https://manga-server.herokuapp.com/search?term=${searchTerm}`, { mode: 'no-cors'})
+  return fetch(`https://manga-server.herokuapp.com/search?term=${searchTerm}`)
         .then(response => response.json())
         .then(results => dispatch({
           type    : SEARCH_TERM,
