@@ -8,8 +8,9 @@ import { isEmpty, find }              from 'lodash';
 class MangaPage extends Component {
   componentDidMount() {
     this.checkForManga();
+    // console.log('Props in MangaPage');
+    // console.log(this.props);
     // this.props.fetchDetails(this.findManga(this.props.listManga.manga, this.props));
-    console.log(this.props);
   }
 
   findManga(mArr, p, type='all') {
@@ -22,17 +23,17 @@ class MangaPage extends Component {
   }
 
   checkForManga() {
-    // !this.findManga(this.props.listManga.manga, this.props) ?
-    //   this.props.fetchDetails(this.findManga(this.props.popular, this.props, 'popular')):
-    //   this.props.fetchDetails(this.findManga(this.props.listManga.manga, this.props))
-      if(!this.findManga(this.props.listManga.manga, this.props) && !this.findManga(this.props.popular, this.props, 'popular')){
-        console.log('First case');
-       this.props.fetchDetails(this.findManga(this.props.searched, this.props))
-     }
-      else if (!this.findManga(this.props.listManga.manga, this.props)) {
-        console.log('First case');
-        this.props.fetchDetails(this.findManga(this.props.popular, this.props, 'popular'))
-      }
+    let lm = this.findManga(this.props.listManga.manga, this.props);
+    let p =   this.findManga(this.props.popular, this.props);
+    let s =  this.findManga(this.props.searched, this.props);
+    // // console.log(lm, p, s);
+    if(!p && !s) {
+      this.props.fetchDetails(this.findManga(this.props.listManga.manga, this.props));
+    } else if (!lm && !s) {
+      this.props.fetchDetails(this.findManga(this.props.popular, this.props));
+    } else {
+      this.props.fetchDetails(this.findManga(this.props.searched, this.props));
+    }
   }
 
   displayGenres (arr) {
@@ -95,6 +96,13 @@ class MangaPage extends Component {
   displayStatus(manga) {
     let status = '';
     manga.status === 1 ? status = 'Ongoing' : status = 'Completed';
+    if ( manga.status === 1 ) {
+      manga.status = 'Ongoing';
+    } else if( manga.status === 2 ) {
+      manga.status = 'Completed';
+    } else {
+      manga.status = 'Suspended';
+    }
     return status;
   }
 

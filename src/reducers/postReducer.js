@@ -33,7 +33,8 @@ export default function(state = initialState, action) {
     case SEARCH_TERM :
       return {
         ...state,
-        searched : action.payload
+        searched : action.payload,
+        search : action.search
           }
     default :
       return state;

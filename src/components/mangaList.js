@@ -2,7 +2,7 @@ import React    from 'react';
 import { Link } from 'react-router-dom';
 
 const MangaList = props => {
-	console.log(props);
+	// console.log(props);
 	// let mangaAr = [...props.mangaArray];
 	if (!props.mangaArray && !props.searched) {
 		return <div>Loading manga...</div>;

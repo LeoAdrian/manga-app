@@ -8,13 +8,13 @@ import { fetchManga, fetchPopular }       from '../actions/postActions';
 class Main extends Component {
   componentWillMount() {
     this.props.fetchManga();
-    this.props.fetchPopular(12);
+    this.props.fetchPopular(15);
   }
-
   render() {
+    // console.log(this.props);
     return (
       <div className = "whole-app">
-        <Searchbar />
+        <Searchbar {...this.props}/>
         <h1>Popular manga</h1>
         <MangaList mangaArray = {this.props.popular}/>
         <h1>Other titles</h1>

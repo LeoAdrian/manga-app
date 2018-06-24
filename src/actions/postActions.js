@@ -20,6 +20,17 @@ export const fetchDetails = ( obj ) => dispatch => {
         }))
 }
 
+// export const fetchDetails = ( obj ) => dispatch => {
+//   console.log('Into fetch');
+//   console.log(obj);
+//   return fetch(`http://localhost:8000/search?id=${obj.i}/`)
+//           .then(response => response.json())
+//           .then(details => dispatch({
+//             type    : FETCH_DETAILS,
+//             payload : details
+//         }))
+// }
+
 export const fetchChapter = ( mID, chID ) => dispatch => {
   return fetch(`https://www.mangaeden.com/api/chapter/${mID}/`)
           .then(response => response.json())
@@ -38,14 +49,15 @@ export const fetchPopular = (limit) => dispatch => {
         }))
 }
 
-export const searchManga = (searchTerm) => dispatch => {
-  console.log('Fetch manga for: ' + searchTerm);
-  return fetch(`http://localhost:8000/search&q=${searchTerm}`)
+export const searchManga = (searchTerm ,callback) => dispatch => {
+  return fetch(`http://localhost:8000/search?term=${searchTerm}`)
         .then(response => response.json())
         .then(results => dispatch({
           type    : SEARCH_TERM,
-          payload : results
+          payload : results,
+          search: true
         }))
+        .then( () => callback())
 }
 // export const fetchManga = () => dispatch => {
 //   console.log('Fetching manga');
