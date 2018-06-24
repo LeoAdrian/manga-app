@@ -47,8 +47,8 @@ export const fetchChapter = ( mID, chID ) => dispatch => {
         }))
 }
 
-export const fetchPopular = (limit) => dispatch => {
-  return fetch(`https://manga-server.herokuapp.com/popular&limit=${limit}`)
+export const fetchPopular = () => dispatch => {
+  return fetch(`https://manga-server.herokuapp.com/popular`)
         .then(response => response.json())
         .then(popular => dispatch({
           type    : FETCH_POPULAR,

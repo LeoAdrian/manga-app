@@ -8,7 +8,7 @@ import { fetchManga, fetchPopular }       from '../actions/postActions';
 class Main extends Component {
   componentWillMount() {
     this.props.fetchManga();
-    this.props.fetchPopular(15);
+    this.props.fetchPopular();
   }
   render() {
     // console.log(this.props);
