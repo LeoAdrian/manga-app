@@ -1,5 +1,5 @@
 import { FETCH_MANGA, FETCH_DETAILS, FETCH_CHAPTER, FETCH_POPULAR, SEARCH_TERM } from './types';
-import {isEmpty, isNull} from 'lodash'
+import {isNull} from 'lodash'
 export const fetchManga = (nr = 5) => dispatch => {
   return fetch(`https://www.mangaeden.com/api/list/0/?p=${nr}&l=25`)
          .then(response => response.json())
@@ -55,4 +55,15 @@ export const searchManga = (searchTerm ,callback) => dispatch => {
           search: true
         }))
         .then( () => callback())
+}
+
+export const fetchSuggestion = (searchTerm, callback) => dispatch => {
+  return fetch(`http://localhost:8000/search?term=${searchTerm}&limit=4`)
+        .then(response => response.json())
+        .then(results => dispatch({
+          type    : 'FETCH_SUGGESTION',
+          payload : results,
+        }))
+        .then( () => callback())
+        .catch(err => console.log(err))
 }

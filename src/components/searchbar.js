@@ -3,13 +3,15 @@ import { Redirect } from 'react-router-dom';
 import PropTypes            from 'prop-types';
 import { connect }          from 'react-redux';
 import { withRouter }       from "react-router-dom";
-import { searchManga }       from '../actions/postActions';
+import { searchManga, fetchSuggestion }      from '../actions/postActions';
+import Suggest              from './suggestManga';
 
 class Searchbar extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      value:''
+      value:'',
+      term: ''
     }
   }
 
@@ -17,6 +19,15 @@ class Searchbar extends Component {
   //     router: PropTypes.object
   //   }
   handleEnter = (e) => {
+    // this.props.fetchSuggestion(e.target.value, function(){ console.log('done') })
+    this.setState({term:e.target.value}, function() {
+      if(this.state.term.length > 2){
+        console.log('fetchSuggestion');
+        this.props.fetchSuggestion(this.state.term, function(){ console.log('done') })
+      } else {
+        console.log('Do not fetch for suggestion');
+      }
+    })
     if(e.keyCode === 13){
       this.setState({value:e.target.value})
       this.props.searchManga(e.target.value, () => {
@@ -27,24 +38,13 @@ class Searchbar extends Component {
       };
   }
 
-  // componentWillUnmount() {
-  //   console.log('Unmounting');
-  //   this.props.toggleSearchState(this.props.search);
-  //   // this.props.search = false;
-  // }
+
 
   render() {
-    // if(this.state.value){
-    //   return <Redirect to={{
-    //             pathname: '/search',
-    //             search: `/term?q=${this.state.value}`,
-    //             state: { referrer: this.props.searched }
-    //
-    //         }}/>;
-    // }
     return (
       <Fragment>
         <input className="search-input" type = "text" placeholder = "Search manga..." onKeyUp = {(ev) => this.handleEnter(ev)}/>
+        <Suggest term = {this.state.term} {...this.props}/>
       </Fragment>
     )
   }
@@ -52,11 +52,13 @@ class Searchbar extends Component {
 
 Searchbar.propTypes = {
   searchManga: PropTypes.func.isRequired,
+  fetchSuggestion: PropTypes.func.isRequired,
   searched: PropTypes.array
 }
 
 const mapStateToProps = state => ({
-  searched : state.posts.searched
+  searched : state.posts.searched,
+  suggestion: state.posts.suggestion
 })
 
-export default connect( mapStateToProps, { searchManga } )(withRouter(Searchbar));
+export default connect( mapStateToProps, { searchManga, fetchSuggestion } )(withRouter(Searchbar));

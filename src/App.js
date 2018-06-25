@@ -5,7 +5,6 @@ import store                    				from './store';
 import Main 														from "./routes/main";
 import MangaPage 												from "./routes/mangaPage";
 import ChapterPage 											from "./routes/chapterPage";
-import Search 											from "./components/search";
 import MangaList from "./components/mangaList";
 import { isEmpty }                      from 'lodash';
 import "./App.css";

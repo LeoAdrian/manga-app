@@ -6,6 +6,7 @@ const initialState = {
   chapter       : {},
   popular       : [],
   searched        : [],
+  suggestion    : [],
   isOk: true
 }
 
@@ -38,6 +39,11 @@ export default function(state = initialState, action) {
         searched : action.payload,
         search : action.search
           }
+      case 'FETCH_SUGGESTION':
+        return {
+          ...state,
+          suggestion: action.payload
+        }
     default :
       return state;
   }
